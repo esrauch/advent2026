@@ -1,0 +1,26 @@
+{
+  "name": "codespaces",
+  "image": "ealen/codespaces",
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "eamodio.gitlens",
+    "naumovs.color-highlight",
+    "vscode-icons-team.vscode-icons",
+    "ms-azuretools.vscode-docker"
+  ],
+  "settings": {
+    "workbench.iconTheme": "vscode-icons",
+    "editor.fontFamily": "Consolas, 'Courier New', monospace, hack, 'Hack Nerd Font Mono'",
+    "terminal.integrated.fontFamily": "Consolas, 'Hack Nerd Font Mono'",
+    "terminal.integrated.fontSize": 14,
+    "files.autoSave": "onFocusChange",
+    "editor.tabSize": 2,
+    "eslint.format.enable": true
+  },
+  "mounts": [
+    "source=/home/YOUR_USER/.ssh,target=/home/ubuntu/.ssh,type=bind,readonly",
+    "source=/home/YOUR_USER/.gnupg,target=/home/ubuntu/.gnupg,type=bind,readonly",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ]
+}

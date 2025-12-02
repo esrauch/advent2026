@@ -1,6 +1,6 @@
 import { open } from 'fs/promises';
 async function* f() {
-    const file = await open('./day01-small.txt');
+    const file = await open('./day01.txt');
     for await (const line of file.readLines()) {
         const first = line[0];
         let sign;
@@ -25,17 +25,24 @@ async function* f() {
     let val = 50;
     let numZeroes = 0;
     for await (let rot of f()) {
-        console.log(`Current value: ${val}, rotation: ${rot}`);
-        val += rot;
-        if (val == 0) {
+        console.log(`Before: ${val} Rotation: ${rot}`);
+        while (rot <= -100) {
+            rot += 100;
             numZeroes += 1;
         }
-        while (val < 0) {
-            val += 100;
+        while (rot >= 100) {
+            rot -= 100;
             numZeroes += 1;
         }
-        while (val >= 100) {
-            val -= 100;
+        const next = val + rot;
+        if (val < 0 && next > 0) {
+            numZeroes += 1;
+        }
+        if (val > 0 && (next < 0 || next > 100)) {
+            numZeroes += 1;
+        }
+        val = ((next % 100) + 100) % 100;
+        if (val === 0) {
             numZeroes += 1;
         }
         console.log(`  NumZeroes: ${numZeroes}`);

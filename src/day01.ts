@@ -1,7 +1,7 @@
 import { open } from 'fs/promises';
 
 async function* f(): AsyncGenerator<number> {
-  const file = await open('./day01-small.txt');
+  const file = await open('./day01.txt');
   for await (const line of file.readLines()) {
     const first = line[0];
     let sign;
@@ -21,23 +21,25 @@ async function* f(): AsyncGenerator<number> {
   await file.close();
 }
 
-(async function() {
+(async function () {
   let val = 50;
   let numZeroes = 0;
   for await (let rot of f()) {
-    console.log(`Current value: ${val}, rotation: ${rot}`);
+    console.log(`Before: ${val} Rotation: ${rot}`);
+    while (rot <= -100) { rot += 100; numZeroes += 1; }
+    while (rot >= 100) { rot -= 100; numZeroes += 1; }
 
-    const spins = Math.floor(Math.abs(rot) / 100);
-    numZeroes += spins;
-    rot -= spins * 100 * (rot < 0 ? -1 : 1);
-
-    val += rot;
-    
-    if (val == 0) {
+    const next = val + rot;
+    if (val < 0 && next > 0) {
       numZeroes += 1;
     }
-    while (val < 0) { val += 100; numZeroes += 1; }
-    while (val >= 100) { val -= 100; numZeroes += 1; }
+    if (val > 0 && (next < 0 || next > 100)) {
+      numZeroes += 1;
+    }
+    val = ((next % 100) + 100) % 100;
+    if (val === 0) {
+      numZeroes += 1;
+    }
 
     console.log(`  NumZeroes: ${numZeroes}`);
     console.log(`  New value: ${val}`);
